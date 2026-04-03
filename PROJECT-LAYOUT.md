@@ -80,6 +80,7 @@ common defaults
 library
   import:         defaults
   hs-source-dirs: src
+  build-depends:    base >=4.19 && <5
   exposed-modules:
     Exercises.MyMaybe
     Exercises.MyList
@@ -111,9 +112,9 @@ test-suite tests
 - **`-Wunused-packages`** — catches stale dependencies early.
 - **`hspec-discover`** — auto-discovers `*Spec.hs` test modules, so you
   don't have to wire them up manually.
-- **No `base` in the library `build-depends`** — `base` is implicitly
-  available. It's listed in the test suite only because test suites are
-  separate compilation units that need explicit deps.
+- **`base` is listed in both library and test suite** — with
+  `cabal-version: 3.0`, every component must declare its own dependencies
+  explicitly; `base` is never implicitly available.
 
 When you add a new exercise file:
 
@@ -204,6 +205,13 @@ data MyList a
   | MyCons a (MyList a)
   deriving stock (Show, Eq)
 
+-- You'll need this for Applicative and Monad
+instance Semigroup (MyList a) where
+  (<>) = undefined
+
+instance Monoid (MyList a) where
+  mempty = undefined
+
 instance Functor MyList where
   fmap = undefined
 
@@ -241,8 +249,17 @@ spec = do
       fmap (+ 1) MyNothing `shouldBe` (MyNothing :: MyMaybe Int)
 
   describe "Applicative MyMaybe" $ do
+    it "wraps a value with pure" $
+      pure 42 `shouldBe` MyJust 42
+
     it "applies function in MyJust" $
       (MyJust (+ 1) <*> MyJust 2) `shouldBe` MyJust 3
+
+    it "applies MyNothing function to MyJust" $
+      (MyNothing <*> MyJust 2) `shouldBe` (MyNothing :: MyMaybe Int)
+
+    it "applies MyJust function to MyNothing" $
+      (MyJust (+ 1) <*> MyNothing) `shouldBe` (MyNothing :: MyMaybe Int)
 
   describe "Monad MyMaybe" $ do
     it "binds MyJust" $
@@ -250,6 +267,46 @@ spec = do
 
     it "binds MyNothing" $
       (MyNothing >>= \x -> MyJust (x + 1 :: Int)) `shouldBe` MyNothing
+```
+
+## File: `test/Exercises/MyListSpec.hs` (starter)
+
+```haskell
+module Exercises.MyListSpec (spec) where
+
+import Exercises.MyList
+import Test.Hspec
+
+spec :: Spec
+spec = do
+  describe "Functor MyList" $ do
+    it "fmaps over a list" $
+      fmap (+ 1) (MyCons 1 (MyCons 2 MyNil)) `shouldBe` MyCons 2 (MyCons 3 MyNil)
+
+    it "fmaps over MyNil" $
+      fmap (+ 1) MyNil `shouldBe` (MyNil :: MyList Int)
+
+  describe "Applicative MyList" $ do
+    it "wraps a value with pure" $
+      pure 42 `shouldBe` MyCons 42 MyNil
+
+    it "applies functions to values" $
+      (MyCons (+ 1) (MyCons (* 10) MyNil) <*> MyCons 2 (MyCons 3 MyNil))
+        `shouldBe` MyCons 3 (MyCons 4 (MyCons 20 (MyCons 30 MyNil)))
+
+    it "applies MyNil functions" $
+      (MyNil <*> MyCons 1 MyNil) `shouldBe` (MyNil :: MyList Int)
+
+    it "applies functions to MyNil" $
+      (MyCons (+ 1) MyNil <*> MyNil) `shouldBe` (MyNil :: MyList Int)
+
+  describe "Monad MyList" $ do
+    it "binds over a list" $
+      (MyCons 1 (MyCons 2 MyNil) >>= \x -> MyCons x (MyCons (x * 10) MyNil))
+        `shouldBe` MyCons 1 (MyCons 10 (MyCons 2 (MyCons 20 MyNil)))
+
+    it "binds over MyNil" $
+      (MyNil >>= \x -> MyCons (x + 1 :: Int) MyNil) `shouldBe` MyNil
 ```
 
 ## Workflow
@@ -273,6 +330,9 @@ hlint src/ test/
 ```
 
 ## Adding a New Exercise
+
+Once the basics are in place, `Foldable` and `Traversable` are natural next
+exercises for both `MyMaybe` and `MyList`.
 
 1. `cp src/Exercises/MyMaybe.hs src/Exercises/MyState.hs`
 2. Edit the module name and types
