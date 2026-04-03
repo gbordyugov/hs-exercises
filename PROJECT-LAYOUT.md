@@ -5,8 +5,8 @@
 | Tool | Purpose |
 |------|---------|
 | **GHCup** | Install and manage GHC, cabal, HLS |
-| **GHC 9.10.x** | Compiler (latest stable series) |
-| **cabal-install 3.12+** | Build tool (the standard; Stack is no longer recommended for new projects) |
+| **GHC 9.12.x** | Compiler (latest stable series) |
+| **cabal-install 3.14+** | Build tool (the standard; Stack is no longer recommended for new projects) |
 | **HLS** (Haskell Language Server) | IDE support via LSP |
 | **fourmolu** | Code formatter (community default, Ormolu fork with config) |
 | **hlint** | Linter |
@@ -14,9 +14,9 @@
 Install everything via GHCup:
 
 ```sh
-ghcup install ghc 9.10.2
-ghcup install cabal 3.12.1.0
-ghcup install hls
+ghcup install ghc 9.12.2
+ghcup install cabal 3.14.2.0
+ghcup install hls 2.13.0.0
 ```
 
 ## Directory Structure
