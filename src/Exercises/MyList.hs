@@ -5,19 +5,35 @@ data MyList a
   | MyCons a (MyList a)
   deriving stock (Show, Eq)
 
+
+myFoldr :: (a -> b -> b) -> b -> MyList a -> b
+myFoldr _ z MyNil = z
+myFoldr f z (MyCons b t) = undefined
+
+
 -- You'll need this for Applicative and Monad
 instance Semigroup (MyList a) where
-  (<>) = undefined
+  MyNil <> x = x
+  x <> MyNil = x
+  MyCons h1 t1 <> x = MyCons h1 $ t1 <> x
+
 
 instance Monoid (MyList a) where
-  mempty = undefined
+  mempty = MyNil
+
 
 instance Functor MyList where
-  fmap = undefined
+  fmap _ MyNil = MyNil
+  fmap f (MyCons h t) = MyCons (f h) (fmap f t)
+
 
 instance Applicative MyList where
-  pure = undefined
-  (<*>) = undefined
+  pure x = MyCons x MyNil
+  MyNil <*> _ = MyNil
+  _ <*> MyNil = MyNil
+  MyCons fh ft <*> MyCons h t = undefined
+  -- (<*>) = undefined
+
 
 instance Monad MyList where
   (>>=) = undefined
