@@ -1,5 +1,6 @@
 module Exercises.MyList where
 
+
 data MyList a
   = MyNil
   | MyCons a (MyList a)
@@ -8,7 +9,11 @@ data MyList a
 
 myFoldr :: (a -> b -> b) -> b -> MyList a -> b
 myFoldr _ z MyNil = z
-myFoldr f z (MyCons b t) = undefined
+myFoldr f z (MyCons a as) = f a (myFoldr f z as)
+
+
+myListFromList :: [a] -> MyList a
+myListFromList as = foldr MyCons MyNil as
 
 
 -- You'll need this for Applicative and Monad
@@ -31,7 +36,7 @@ instance Applicative MyList where
   pure x = MyCons x MyNil
   MyNil <*> _ = MyNil
   _ <*> MyNil = MyNil
-  MyCons fh ft <*> MyCons h t = undefined
+  MyCons _ _ <*> MyCons _ _ = undefined
   -- (<*>) = undefined
 
 
