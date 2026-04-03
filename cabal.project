@@ -1,0 +1,7 @@
+packages: .
+
+-- Speed up builds by using parallel jobs
+jobs: $ncpus
+
+-- Keep build artifacts out of the source tree
+-- (default is dist-newstyle/, which is fine)
