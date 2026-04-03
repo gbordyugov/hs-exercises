@@ -1,0 +1,3 @@
+# Start permissive; tighten as you learn
+- ignore: {name: "Use newtype deriving"}
+- ignore: {name: "Eta reduce"}
