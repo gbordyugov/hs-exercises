@@ -312,6 +312,10 @@ spec = do
 ## Workflow
 
 ```sh
+# First time only: download the Hackage package index
+# (without this, cabal cannot resolve external dependencies like hspec)
+cabal update
+
 # Build everything
 cabal build all
 
