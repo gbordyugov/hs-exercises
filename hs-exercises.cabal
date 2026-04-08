@@ -26,6 +26,7 @@ library
   exposed-modules:
     Exercises.MyMaybe
     Exercises.MyList
+    Exercises.MyState
 
 test-suite tests
   import:         defaults
@@ -35,6 +36,7 @@ test-suite tests
   other-modules:
     Exercises.MyMaybeSpec
     Exercises.MyListSpec
+    Exercises.MyStateSpec
   build-depends:
     , base          >=4.19 && <5
     , hs-exercises
