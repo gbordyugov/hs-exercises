@@ -14,9 +14,9 @@ instance (Functor m) => Functor (MyMaybeT m) where
 
 
 instance (Applicative m) => Applicative (MyMaybeT m) where
-  pure = undefined
-  (<*>) = undefined
+  pure = MyMaybeT . pure . Just
+  MyMaybeT mfab <*> MyMaybeT ma = MyMaybeT $ liftA2 (<*>) mfab ma
 
 
 instance (Monad m) => Monad (MyMaybeT m) where
-  (>>=) = undefined
+  MyMaybeT mma >>= fammt = MyMaybeT $ undefined

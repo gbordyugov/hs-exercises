@@ -29,6 +29,7 @@ library
     Exercises.MyMaybeT
     Exercises.MyList
     Exercises.MyState
+    Exercises.Compose
 
 test-suite tests
   import:         defaults
@@ -37,6 +38,7 @@ test-suite tests
   main-is:        Main.hs
   other-modules:
     Exercises.MyMaybeSpec
+    Exercises.MyMaybeTSpec
     Exercises.MyListSpec
     Exercises.MyStateSpec
   build-depends:
