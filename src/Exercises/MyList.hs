@@ -37,11 +37,10 @@ instance Functor MyList where
 
 
 instance Applicative MyList where
-  pure x = MyCons x MyNil
+  pure x = fromList [x]
   MyNil <*> _ = MyNil
   _ <*> MyNil = MyNil
-  MyCons _ _ <*> MyCons _ _ = undefined
-  -- (<*>) = undefined
+  fs <*> xs = flatten $ fmap (\f -> fmap f xs) fs
 
 
 instance Monad MyList where
