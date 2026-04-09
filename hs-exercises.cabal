@@ -25,6 +25,7 @@ library
   build-depends:    base >=4.19 && <5
   exposed-modules:
     Exercises.MyMaybe
+    Exercises.MyMaybeT
     Exercises.MyList
     Exercises.MyState
 
