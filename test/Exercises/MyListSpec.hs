@@ -44,6 +44,24 @@ spec = do
     it "correctly converts a list with three elements" $
       fromList [1, 2, 3] `shouldBe` MyCons 1 (MyCons 2 (MyCons 3 MyNil))
 
+  describe "flatten" $ do
+    it "flattens an empty list of lists" $
+      flatten (fromList [] :: MyList (MyList Int)) `shouldBe` fromList []
+
+    it "flattens a single empty inner list" $
+      flatten (fromList [fromList [] :: MyList Int]) `shouldBe` fromList []
+
+    it "flattens a single non-empty inner list" $
+      flatten (fromList [fromList [1, 2]]) `shouldBe` fromList [1, 2]
+
+    it "flattens two inner lists" $
+      flatten (fromList [fromList [1, 2], fromList [3, 4]])
+        `shouldBe` fromList [1, 2, 3, 4]
+
+    it "flattens with empty inner lists interspersed" $
+      flatten (fromList [fromList [1], fromList [], fromList [2]])
+        `shouldBe` fromList [1, 2]
+
   describe "Functor MyList" $ do
     it "fmaps over a list" $
       fmap (+ 1) (fromList [1, 2]) `shouldBe` fromList [2, 3]

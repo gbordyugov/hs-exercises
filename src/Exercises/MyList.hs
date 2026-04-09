@@ -16,6 +16,10 @@ fromList :: [a] -> MyList a
 fromList as = foldr MyCons MyNil as
 
 
+flatten :: MyList (MyList a) -> MyList a
+flatten lists = myFoldr (<>) MyNil lists
+
+
 -- You'll need this for Applicative and Monad
 instance Semigroup (MyList a) where
   MyNil <> x = x
