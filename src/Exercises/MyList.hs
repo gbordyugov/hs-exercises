@@ -44,4 +44,4 @@ instance Applicative MyList where
 
 
 instance Monad MyList where
-  (>>=) = undefined
+  as >>= fabs = flatten $ fmap fabs as
