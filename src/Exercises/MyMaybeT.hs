@@ -19,4 +19,5 @@ instance (Applicative m) => Applicative (MyMaybeT m) where
 
 
 instance (Monad m) => Monad (MyMaybeT m) where
-  MyMaybeT mma >>= fammt = MyMaybeT $ undefined
+  MyMaybeT mma >>= fammb = MyMaybeT $ undefined
+    -- let _ = mma >>= (
