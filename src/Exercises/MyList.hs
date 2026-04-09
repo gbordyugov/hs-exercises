@@ -12,8 +12,8 @@ myFoldr _ z MyNil = z
 myFoldr f z (MyCons a as) = f a (myFoldr f z as)
 
 
-myListFromList :: [a] -> MyList a
-myListFromList as = foldr MyCons MyNil as
+fromList :: [a] -> MyList a
+fromList as = foldr MyCons MyNil as
 
 
 -- You'll need this for Applicative and Monad
