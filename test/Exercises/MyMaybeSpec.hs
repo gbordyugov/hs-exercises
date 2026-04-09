@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-type-defaults #-}
+
 module Exercises.MyMaybeSpec (spec) where
 
 import Exercises.MyMaybe

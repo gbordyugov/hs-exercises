@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-type-defaults #-}
+
 module Exercises.MyStateSpec (spec) where
 
 import Exercises.MyState

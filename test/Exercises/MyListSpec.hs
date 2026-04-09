@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-type-defaults #-}
+
 module Exercises.MyListSpec (spec) where
 
 import Exercises.MyList
