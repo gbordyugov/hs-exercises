@@ -15,6 +15,7 @@ instance Applicative (MyState s) where
         (s2, fab) = sfab s1
     in (s2, fab a)
 
+
 instance Monad (MyState s) where
   return = pure
   MyState ma >>= famb = MyState $ \s0 ->
