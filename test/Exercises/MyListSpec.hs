@@ -73,22 +73,22 @@ spec = do
 
   describe "Applicative MyList" $ do
     it "wraps a value with pure" $
-      pure 42 `shouldBe` MyCons 42 MyNil
+      pure 42 `shouldBe` fromList [42]
 
     it "applies functions to values" $
-      (MyCons (+ 1) (MyCons (* 10) MyNil) <*> MyCons 2 (MyCons 3 MyNil))
-        `shouldBe` MyCons 3 (MyCons 4 (MyCons 20 (MyCons 30 MyNil)))
+      (fromList [(+ 1), (* 10)] <*> fromList [2, 3])
+        `shouldBe` fromList [3, 4, 20, 30]
 
     it "applies MyNil functions" $
-      (MyNil <*> MyCons 1 MyNil) `shouldBe` (MyNil :: MyList Int)
+      (MyNil <*> fromList [1]) `shouldBe` (MyNil :: MyList Int)
 
     it "applies functions to MyNil" $
-      (MyCons (+ 1) MyNil <*> MyNil) `shouldBe` (MyNil :: MyList Int)
+      (fromList [(+ 1)] <*> MyNil) `shouldBe` (MyNil :: MyList Int)
 
   describe "Monad MyList" $ do
     it "binds over a list" $
-      (MyCons 1 (MyCons 2 MyNil) >>= \x -> MyCons x (MyCons (x * 10) MyNil))
-        `shouldBe` MyCons 1 (MyCons 10 (MyCons 2 (MyCons 20 MyNil)))
+      (fromList [1, 2] >>= \x -> fromList [x, x * 10])
+        `shouldBe` fromList [1, 10, 2, 20]
 
     it "binds over MyNil" $
       (MyNil >>= \x -> MyCons (x + 1 :: Int) MyNil) `shouldBe` MyNil
