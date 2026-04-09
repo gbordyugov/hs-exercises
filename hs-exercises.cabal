@@ -6,10 +6,6 @@ license:       NONE
 build-type:    Simple
 
 
-package *
-  ghc-options: -haddock
-
-
 common defaults
   default-language: GHC2021
   ghc-options:
