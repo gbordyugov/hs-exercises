@@ -17,4 +17,7 @@ instance Applicative (MyState s) where
 
 instance Monad (MyState s) where
   return x = MyState $ \s -> (s, x)
-  MyState a >>= famb = undefined
+  MyState ma >>= famb = MyState $ \s0 ->
+    let (s1, a) = ma s0
+        s2 = famb a
+    in runMyState s2
