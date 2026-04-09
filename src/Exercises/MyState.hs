@@ -16,8 +16,8 @@ instance Applicative (MyState s) where
     in (s2, fab a)
 
 instance Monad (MyState s) where
-  return x = MyState $ \s -> (s, x)
+  return = pure
   MyState ma >>= famb = MyState $ \s0 ->
     let (s1, a) = ma s0
         s2 = famb a
-    in runMyState s2
+    in (runMyState s2) s1
