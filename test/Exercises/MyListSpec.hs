@@ -2,7 +2,7 @@ module Exercises.MyListSpec (spec) where
 
 import Exercises.MyList
 import Test.Hspec
-import GHC.Real (FractionalExponentBase(Base10))
+
 
 spec :: Spec
 spec = do
