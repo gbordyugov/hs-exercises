@@ -16,5 +16,8 @@ instance (Applicative m) => Applicative (IdentityT m) where
 
 
 instance (Monad m) => Monad (IdentityT m) where
-  IdentityT mia >>= faimib = undefined
+  IdentityT mia >>= faimb = IdentityT $
+    let famb = runIdentityT . faimb
+        x = mia >>= famb
+    in x
 
