@@ -30,6 +30,7 @@ library
     Exercises.MyList
     Exercises.MyState
     Exercises.Compose
+    Exercises.Identity
 
 test-suite tests
   import:         defaults
